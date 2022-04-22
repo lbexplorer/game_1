@@ -65,3 +65,34 @@ class Ball(pygame.sprite.Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, self.rect)
+
+
+class Racket(pygame.sprite.Sprite):
+    def __init__(self, imgpath, type_, cfg, **kwargs):
+        pygame.sprite.Sprite.__init__(self)
+        self.cfg = cfg
+        self.type_ = type_
+        self.image = loadImage(imgpath, False)
+        self.rect = self.image.get_rect()
+        self.reset()
+
+    def move(self, direction):
+        if direction == 'UP':
+            self.rect.top = max(0, self.rect.top - self.speed)
+        elif direction == 'DOWN':
+            self.rect.bottom = min(self.cfg.HEIGHT, self.rect.bottom + self.speed)
+        else:
+            raise ValueError('[direction]in Racket.movr is %s,expect %s or %s...' % (direction, 'UP', 'DOWN'))
+        '''电脑自动移动'''
+
+    def automove(self, ball):
+        if ball.rect.centery - 25 > self.rect.centery:
+            self.move('DOWN')
+        if ball.rect.centery + 25 < self.rect.centery:
+            self.move('UP')
+
+    """初始化"""
+
+    def reset(self):
+        # 左/右的拍
+        self.rect.centery = self.cfg.WIDTH - self.rect.width // 2
