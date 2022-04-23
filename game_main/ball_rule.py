@@ -96,3 +96,11 @@ class Racket(pygame.sprite.Sprite):
     def reset(self):
         # 左/右的拍
         self.rect.centery = self.cfg.WIDTH - self.rect.width // 2
+        self.rect.centery = self.cfg.HEIGHT // 2
+        # 速度
+        self.speed = 5
+
+    """ 绑定到屏幕"""
+
+    def draw(self, screen):
+        screen.blit(self.image, self.rect)
